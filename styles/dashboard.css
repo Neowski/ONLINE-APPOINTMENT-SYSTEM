@@ -134,7 +134,7 @@ html, body {
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  margin-left: 20px;
+  
 }
 
 .month-container {
@@ -162,7 +162,7 @@ html, body {
 #year {
   width: 60px;
   text-align: center;
-  margin-left: 100px;
+  margin-left: 90px;
 }
 
 table {
