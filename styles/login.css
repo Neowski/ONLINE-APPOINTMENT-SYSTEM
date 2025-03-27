@@ -1,0 +1,139 @@
+
+  .login-section {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .login-section p {
+    text-align: left;
+
+  }
+
+  /* LOGO STYLES */
+  .logo {
+    width: 150px; /* Adjust logo size */
+    height: auto;
+  }
+
+  /* TITLE STYLES */
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-left: 330px;
+    margin-bottom: 40px;
+  }
+
+  .logo-text {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .title h1 {
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    margin-top: 30px;
+  }
+
+  .title h2 {
+
+    font-size: 25px;
+    color: rgb(143, 38, 38);
+    margin-left: 30px;
+    margin-top: 70px;
+  }
+
+  .subtitle {
+    position: absolute;
+    margin-top: 190px;
+    font-size: 30px;
+    text-align: center;
+    margin-left: 70px;
+    color: black;
+  }
+
+  /* FORM STYLES */
+  form {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: block;
+    margin: 10px auto;
+  }
+
+  input::placeholder {
+    color: gray;
+  }
+
+  .login-section button {
+    background-color: #FFD54F;
+    color: #555;
+    border: none;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+
+  .login-section a{
+    display: block;
+    text-align: center;
+    color: green;
+  }
+
+  /* CONTAINER (BACKGROUND IMAGE) */
+  .container {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* BACKGROUND IMAGE */
+  .container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/main-1-entrance.jpg");
+    background-size: cover;
+    background-position: 80% 60%;
+    background-repeat: no-repeat;
+    filter: blur(1px);
+    z-index: -1;
+    background-color: rgba(255, 255, 255, 0.8);
+    background-blend-mode: lighten;
+  }
+
+  

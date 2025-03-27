@@ -1,0 +1,167 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.top-section {
+  width: 100%;
+  height: 250px;
+  background-image: url("../images/pablo-borbon.png"); 
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-blend-mode: lighten;
+}
+
+.profile {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
+}
+
+.name {
+  position: absolute;
+  top: 10px;
+  left: 180px;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  padding: 2px 5px;
+}
+
+.profile-pic {
+  width: 170px;
+  height: 170px;
+  border-radius: 0;
+  margin-right: 10px;
+  border: none;
+  object-fit: cover;
+}
+
+.signout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgb(212, 209, 209);
+  color: black;
+  border: none;
+  padding: 12px 19px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 30px;
+  margin-top: 200px;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
+}
+
+.signout:hover {
+  background-color: #8a8a8a;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.welcome-text {
+  margin-bottom: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.adviser-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 150px;
+  position: relative;
+  width: 400px;
+}
+
+.adviser-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  
+  text-align: center;
+  border-radius: 25px;
+  border: 2px solid lightgray;
+  background-color: white;
+  
+  cursor: pointer;
+  outline: none;
+  padding-right: 30px;
+}
+
+/* Custom dropdown arrow inside a round shape */
+.adviser-container::after {
+  content: "▼";
+  font-size: 10px;
+  color: gray;
+  
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  width: 25px;
+  height: 25px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 200px;
+}
+
+.submit-btn {
+  font-size: 20px;
+  width: auto;
+  padding: 8px 40px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
