@@ -9,14 +9,12 @@ const months = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
+let currentMonth = new Date().getMonth();
+let currentYear = Math.max(new Date().getFullYear(), 2025);
 
 function generateCalendar(month, year) {
     calendarBody.innerHTML = "";
     currentMonthText.textContent = `${months[month]} ${year}`;
-    yearInput.value = year;
 
     const firstDay = new Date(year, month, 1).getDay();  // Get first day of the month
     const daysInMonth = new Date(year, month + 1, 0).getDate(); // Get total days in month
@@ -53,15 +51,22 @@ function generateCalendar(month, year) {
 
 function changeMonth(direction) {
     currentMonth += direction;
+
     if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
+        if (currentYear > 2025) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth = 0; // Prevent going below 2025
+        }
     } else if (currentMonth > 11) {
         currentMonth = 0;
         currentYear++;
     }
+
     generateCalendar(currentMonth, currentYear);
 }
+
 
 prevMonthBtn.addEventListener("click", () => changeMonth(-1));
 nextMonthBtn.addEventListener("click", () => changeMonth(1));
