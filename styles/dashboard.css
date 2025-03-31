@@ -79,7 +79,6 @@ html, body {
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .apt-button, .con-button {
@@ -89,8 +88,8 @@ html, body {
   gap: 15px;
   white-space: nowrap;
   text-align: left;
-  padding: 10px 20px;
-  width: 350px;
+  padding: 12px 24px;
+  width: 370px;
   border: none;
   margin-left: 150px;
   border-radius: 8px;
@@ -109,8 +108,8 @@ html, body {
 }
 
 .con-button i, .apt-button i {
-  color: green !important;
-  font-size: 50px;
+  color: green;
+  font-size: 70px;
 }
 
 .apt-button:hover, .con-button:hover {
@@ -125,7 +124,7 @@ html, body {
   box-sizing: border-box;
   margin-left: auto;
   margin-right: 180px;
-  margin-top: -245px;
+  margin-top: -270px;
   border: 2px solid #666666;
 }
 
@@ -134,14 +133,14 @@ html, body {
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  margin-left: 20px;
+  
 }
 
 .month-container {
   display: flex;
   align-items: center;
+  gap: 30px;
   justify-content: center;
-  gap: 10px;
   font-size: 18px;
   font-weight: bold;
   white-space: nowrap;
@@ -151,19 +150,20 @@ html, body {
   margin: 0 10px;
 }
 
+
+#next-month {
+  margin-left: 50px;
+}
+
 #prev-month {
-  margin-right: 10px;
+  margin-right: 68px;
 }
 
 .prev-month, .next-month {
   color: #aaa; /* Light gray for previous and next month */
 }
 
-#year {
-  width: 60px;
-  text-align: center;
-  margin-left: 100px;
-}
+
 
 table {
   width: 100%;
