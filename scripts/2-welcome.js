@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedAdviser = adviserSelect.value;
   
             if (selectedAdviser !== "------------------------ Adviser ------------------------") {
-                window.location.href = "dashboard.html"; // Redirect to dashboard.html
+                window.location.href = "3-dashboard.html"; // Redirect to dashboard.html
             }
         });
     }
