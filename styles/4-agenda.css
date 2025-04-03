@@ -1,28 +1,51 @@
-.container   {
-  text-align: center;
+/* Reset styles to remove unwanted spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Prevent horizontal scrolling */
+body {
+  width: 100vw;
+  overflow-x: hidden;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+/* Container styling */
+.container {
+  text-align: center;
+  max-width: 100vw; /* Prevents overflow */
+}
+
+/* Green horizontal line */
+.container hr {
+  width: 100vw; /* Ensure it spans the full viewport width */
+  height: 20px;
+  background-color: rgb(85, 192, 85);
+  border: none; /* Remove default border */
+  margin: 0;
+  margin-top: 20px;
+}
+
+/* Page heading */
 .container h1 {
-  text-align: center;
-  margin-top: 85px;
+  margin-top: -20px;
 }
 
+/* Dropdown styling */
 .dropdown {
   margin-top: 90px;
   height: 40px;
-  width: 400px;
+  width: 100%; /* Make it responsive */
+  max-width: 400px; /* Set a max width to prevent stretching */
   border-radius: 20px;
   text-align: center;
-  
-  
 }
 
-.container .option {
-  text-align: center;
-}
-
+/* Submit button */
 .submit-btn {
-  text-align: center;
   margin-top: 130px;
   margin-bottom: 50px;
   border-radius: 15px;
@@ -31,9 +54,11 @@
   border: none;
   padding: 10px 20px;
   font-size: 15px;
-  
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 180px;
 }
-.container hr {
-  height: 20px;
-  background-color: rgb(85, 192, 85);
+
+.submit-btn:hover {
+  background-color: #45a049;
 }

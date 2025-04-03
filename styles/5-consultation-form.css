@@ -1,19 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+
+html, body {
+  height: 100%; 
+  width: 100%;  
+  overflow: hidden; 
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Take full height of the page */
+  width: 100%;  /* Full width of the page */
+  text-align: center;
+  overflow: hidden; /* Prevent overflow within the container */
+  padding: 0;
+  margin: 0;
+}
+
+/* Green horizontal line */
 .container hr {
+  width: 100vw; /* Makes the <hr> span the full viewport width */
   height: 20px;
-  background-color:  rgb(85, 192, 85);
+  background-color: rgb(85, 192, 85);
+  border: none;
+  margin: 0; /* Removes any extra margins */
+  margin-bottom: 40px;
 }
 /* Button Container */
 .button-container {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   gap: 10px;
-  width: 100%; /* Ensure full width of container */
+  margin-bottom: 80px;
 }
 
-/* Ensure the buttons take full available space */
-.download-btn {
+/* Ensure the buttons take up available space without causing overflow */
+.download-btn,
+.dashboard-btn {
   width: 100%;
   max-width: 250px;
   padding: 12px;
@@ -24,32 +56,34 @@
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: red;
-  margin: 40px 0; /* Adjust margin for spacing */
 }
 
+/* Download button */
+.download-btn {
+  color: red;
+  margin: 40px 0;
+}
+
+/* Dashboard button */
 .dashboard-btn {
-  margin-top: 40px;
-  padding: 7px 20px  ;
+  margin-top: 10px;
+  padding: 7px 20px;
   font-size: 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  color: white;  
+  color: white;
   background-color: green;
   font-family: 'Poppins', sans-serif;
-
 }
 
+/* Button Hover Effect */
 .dashboard-btn:hover {
   background-color: #45a049;
 }
 
+/* Form Container */
 .form-container {
   text-align: center;
   margin-top: 50px;
-  
 }
-
