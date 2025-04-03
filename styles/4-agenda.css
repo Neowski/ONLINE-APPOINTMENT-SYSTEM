@@ -1,0 +1,39 @@
+.container   {
+  text-align: center;
+}
+
+.container h1 {
+  text-align: center;
+  margin-top: 85px;
+}
+
+.dropdown {
+  margin-top: 90px;
+  height: 40px;
+  width: 400px;
+  border-radius: 20px;
+  text-align: center;
+  
+  
+}
+
+.container .option {
+  text-align: center;
+}
+
+.submit-btn {
+  text-align: center;
+  margin-top: 130px;
+  margin-bottom: 50px;
+  border-radius: 15px;
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  
+}
+.container hr {
+  height: 20px;
+  background-color: rgb(85, 192, 85);
+}

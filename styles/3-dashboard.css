@@ -112,6 +112,10 @@ html, body {
   font-size: 70px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .apt-button:hover, .con-button:hover {
   background-color: #e6f5e6;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

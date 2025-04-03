@@ -67,8 +67,14 @@ function changeMonth(direction) {
     generateCalendar(currentMonth, currentYear);
 }
 
-
+// Handle calendar navigation
 prevMonthBtn.addEventListener("click", () => changeMonth(-1));
 nextMonthBtn.addEventListener("click", () => changeMonth(1));
 
+// Generate initial calendar
 generateCalendar(currentMonth, currentYear);
+
+// Add event listener to "Generate Consultation Form" button
+document.querySelector('.con-button').addEventListener('click', function() {
+    window.location.href = '../pages/5-consultation-form.html';  // Navigate to the consultation form page
+});
