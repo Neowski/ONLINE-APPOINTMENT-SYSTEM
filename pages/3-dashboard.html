@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Online Appointment System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/3-dashboard.css">
 </head>
 
 <body>
@@ -21,10 +21,14 @@
         </div>
 
         <div class="actions">
-            <button class="con-button"><i class="fas fa-clipboard-list"></i> Generate Consultation Form</button>
-            <button class="apt-button"><i class="fas fa-calendar-check"></i> Schedule an Appointment</button>
-        </div>
-
+            <a href="../pages/4-agenda.html" class="con-button">
+                <i class="fas fa-clipboard-list"></i> Generate Consultation Form
+            </a>
+            
+            <a href=".html" class="apt-button">
+                <i class="fas fa-calendar-check"></i> Schedule an Appointment
+            </a>
+            
         <div class="calendar">
             <div class="calendar-header">
                 <button id="prev-month">&#9664;</button>
@@ -50,6 +54,6 @@
             </table>
         </div>
     </div>
-    <script src="../scripts/dashboard.js"></script>
+    <script src="../scripts/3-dashboard.js"></script>
 </body>
 </html>
