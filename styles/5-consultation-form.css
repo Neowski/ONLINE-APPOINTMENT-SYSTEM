@@ -1,89 +1,65 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; 
-}
-
-
-html, body {
-  height: 100%; 
-  width: 100%;  
-  overflow: hidden; 
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Take full height of the page */
-  width: 100%;  /* Full width of the page */
+body {
+  font-family: Arial, sans-serif;
   text-align: center;
-  overflow: hidden; /* Prevent overflow within the container */
-  padding: 0;
-  margin: 0;
 }
 
-/* Green horizontal line */
-.container hr {
-  width: 100vw; /* Makes the <hr> span the full viewport width */
-  height: 20px;
-  background-color: rgb(85, 192, 85);
-  border: none;
-  margin: 0; /* Removes any extra margins */
-  margin-bottom: 40px;
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
-/* Button Container */
-.button-container {
+
+.calendar-container {
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.calendar {
+  border-collapse: collapse;
+  width: 350px;
+  background: white;
+}
+
+.calendar th,
+.calendar td {
+  border: 1px solid black;
+  padding: 10px;
+  width: 14.28%;
+}
+
+.calendar td.prev-month,
+.calendar td.next-month {
+  color: #ccc;
+}
+
+.form-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  gap: 10px;
-  margin-bottom: 80px;
+  gap: 20px;
 }
 
-/* Ensure the buttons take up available space without causing overflow */
-.download-btn,
-.dashboard-btn {
-  width: 100%;
-  max-width: 250px;
-  padding: 12px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.dropdown {
+  width: 350px;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 10px;
   text-align: center;
-  text-decoration: none;
 }
 
-/* Download button */
-.download-btn {
-  color: red;
-  margin: 40px 0;
-}
-
-/* Dashboard button */
-.dashboard-btn {
-  margin-top: 10px;
-  padding: 7px 20px;
-  font-size: 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
+.submit-btn {
   background-color: green;
-  font-family: 'Poppins', sans-serif;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-/* Button Hover Effect */
-.dashboard-btn:hover {
-  background-color: #45a049;
-}
-
-/* Form Container */
-.form-container {
-  text-align: center;
-  margin-top: 50px;
+.flatpickr-calendar {
+  transform: translateY(-105%) !important;
+  left: 0 !important;
+  width: 350px !important;
+  background: white;
+  border: 1px solid black;
+  font-size: 14px;
 }
