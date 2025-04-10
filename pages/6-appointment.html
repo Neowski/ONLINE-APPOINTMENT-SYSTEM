@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule an Appointment</title>
+    <link rel="stylesheet" href="../styles/6-appointment.css">
+</head>
+<body>
+    <div class="container">
+        <h2>SCHEDULE AN APPOINTMENT</h2>
+        <hr line>
+        <div class="calendar-container">
+            <div class="calendar">
+                <div class="calendar-header">
+                    <button id="prev-month">&#9664;</button>
+                    <span id="current-month"></span>
+                    <button id="next-month">&#9654;</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body"></tbody>
+                </table>
+            </div>
+            <div class="appointment-form">
+                <select id="select-date">
+                    <option>------------Select Date------------</option>
+                </select>
+                <select id="select-time">
+                    <option>------------Select Time------------</option>
+                </select>
+                <button id="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/6-appointment.js"></script>
+</body>
+</html>
