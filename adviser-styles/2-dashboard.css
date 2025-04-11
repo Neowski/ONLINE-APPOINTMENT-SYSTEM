@@ -1,0 +1,188 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.top-section {
+  width: 100%;
+  height: 240px;
+  background-image: url('../images/pablo-borbon.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-blend-mode: lighten;
+}
+
+.profile {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
+}
+
+.name {
+  position: absolute;
+  top: 10px;
+  left: 180px;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  padding: 2px 5px;
+}
+
+.profile-pic {
+  width: 170px;
+  height: 170px;
+  border-radius: 0;
+  margin-right: 10px;
+  border: none;
+  object-fit: cover;
+}
+
+.signout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgb(212, 209, 209);
+  color: black;
+  border: none;
+  padding: 12px 19px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 30px;
+  margin-top: 200px;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
+}
+
+.signout:hover {
+  background-color: #8a8a8a;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.apt-button, .con-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  white-space: nowrap;
+  text-align: left;
+  padding: 12px 24px;
+  border: none;
+  margin-left: 150px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  background-color: white;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.con-button, .apt-button {
+  font-size: 20px;
+  text-align: center;
+  color: black;
+  margin-top: 60px;
+  width: 100%;
+  width: 350px;
+}
+
+.con-button i { 
+  color: green;
+  font-size: 83px;
+}
+
+.apt-button i {
+  color: green;
+  font-size: 70px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.apt-button:hover, .con-button:hover {
+  background-color: #e6f5e6;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.calendar {
+  width: 400px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: 180px;
+  margin-top: -270px;
+  border: 2px solid #666666;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  
+}
+
+.month-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#current-month {
+  margin: 0 10px;
+}
+
+
+#next-month {
+  margin-left: 50px;
+}
+
+#prev-month {
+  margin-right: 68px;
+}
+
+.prev-month, .next-month {
+  color: #aaa; /* Light gray for previous and next month */
+}
+
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #666666;
+}
+
+th, td {
+  border: 1px solid #666666;
+  padding: 8px;
+  text-align: center;
+}
