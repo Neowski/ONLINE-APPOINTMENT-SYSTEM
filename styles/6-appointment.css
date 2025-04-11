@@ -1,6 +1,6 @@
 html, body {
   height: 100%;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
 }
 
 body {
@@ -21,10 +21,10 @@ h2 {
 }
 
 .container hr {
-  width: 100vw; /* Ensure it spans the full viewport width */
+  width: 100vw;
   height: 20px;
   background-color: rgb(85, 192, 85);
-  border: none; /* Remove default border */
+  border: none;
   margin: 0;
   margin-top: 20px;
   margin-right: 40px;
@@ -33,7 +33,7 @@ h2 {
 .calendar-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Allow calendar and form to behave independently */
+  align-items: flex-start;
   gap: 50px;
   margin-top: 100px;
   margin-left: 40px;
@@ -54,15 +54,12 @@ h2 {
 
 .calendar-header {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  font-size: 20px;
-  margin-top: 20px;
-  padding-top: 0;
-  align-self: flex-start;
   margin-top: -17px;
 }
 
@@ -79,8 +76,6 @@ h2 {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: 80px;
-  margin-left: 90px;
 }
 
 .calendar-header button:hover {
@@ -112,36 +107,31 @@ th, td {
   gap: 20px;
   width: 300px;
   margin-top: 100px;
-  margin-left: 50px;
+  margin-left: -70px;
   flex-shrink: 0;
 }
 
-select, button {
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 10px;
-  font-size: 16px;
-  margin-left: 100px;
-  width: 250px;
-}
-
+/* Consistent form inputs */
 button {
+  font-family: Arial, Helvetica, sans-serif;
   color: black;
   cursor: pointer;
-  margin-top: 20px; 
+  margin-top: 20px;
   width: 100px;
+  font-size: 16px;
+  padding: 10px;
 }
 
 #submit {
   background-color: green;
   color: white;
   border: none;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100px;
   position: relative;
-  right: -80px;
-  font-size: 16px;
+  right: -140px;
+  border-radius: 10px;
+  width: 120px;
   padding: 10px;
+  box-shadow: 2px 2px 2px #ccc;
 }
 
 button:hover {
@@ -152,4 +142,133 @@ button:hover {
   color: #aaa;
 }
 
+/* ============================= */
+/* ==== UNIFIED SELECT STYLE ==== */
+/* ============================= */
 
+.select-style,
+.fake-select,
+.select-time-wrapper select {
+  width: 250px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  appearance: none;
+  box-sizing: border-box;
+  text-align: center;
+  text-align-last: center;
+  line-height: 1.4;
+}
+
+/* Date Picker Container */
+.fake-select {
+  position: relative;
+  width: 250px;
+  margin-left: 70px;
+  margin-bottom: 10px;
+}
+
+.fake-select input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Dropdown arrow for Date */
+.fake-select::after {
+  content: '▼';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: black;
+  font-size: 14px;
+}
+
+/* Time Picker Container */
+.select-time-wrapper {
+  position: relative;
+  width: 250px;
+  margin-left: 70px;
+  margin-bottom: 10px;
+}
+
+/* Dropdown arrow for Time */
+.select-time-wrapper::after {
+  content: '▼';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 14px;
+  color: black;
+}
+
+/* ============================= */
+/* ====== FLATPICKR ============ */
+/* ============================= */
+
+.flatpickr-calendar {
+  font-family: Arial, sans-serif;
+  border: 3px solid #666666;
+  box-shadow: none;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 300px;
+  background-color: white;
+  z-index: 9999;
+}
+
+.flatpickr-months {
+  background-color: rgb(85, 192, 85);
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 0;
+  font-size: 16px;
+}
+
+.flatpickr-weekdays {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  border-top: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+}
+
+.flatpickr-weekday {
+  color: black;
+}
+
+.flatpickr-day {
+  border: 1px solid #666666;
+  color: black;
+  border-radius: 0;
+  margin: 0;
+  line-height: 30px;
+}
+
+.flatpickr-day:hover,
+.flatpickr-day.today {
+  background-color: rgb(85, 192, 85);
+  color: white;
+}
+
+.flatpickr-calendar {
+  top: auto !important;
+  left: auto !important;
+  margin-top: 5px;
+}
