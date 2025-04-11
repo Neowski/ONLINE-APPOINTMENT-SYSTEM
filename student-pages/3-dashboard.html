@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Online Appointment System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../student-styles/3-dashboard.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-section">
+            <div class="profile">
+                <img src="../images/icon.png" alt="Profile Image" class="profile-pic">
+                <p class="name">DELA CRUZ, JUAN P.</p>
+            </div>
+            <button class="signout">
+                <i class="fas fa-power-off"></i> Sign Out
+            </button>
+        </div>
+
+        <div class="actions">
+            <a href="../student-pages/4-agenda.html" class="con-button">
+                <i class="fas fa-clipboard-list"></i> Generate Consultation Form
+            </a>
+            
+            <a href="../student-pages/6-appointment.html" class="apt-button">
+                <i class="fas fa-calendar-check"></i> Schedule an Appointment
+            </a>
+            
+        <div class="calendar">
+            <div class="calendar-header">
+                <button id="prev-month">&#9664;</button>
+                <div class="month-container">
+                    <span id="current-month"></span>
+                    <button id="next-month">&#9654;</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../student-scripts/3-dashboard.js"></script>
+</body>
+</html>

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = passwordField.value;
 
             if (username === "sampleuser" && password === "samplepass") {
-                window.location.href = "../pages/2-welcome.html";
+                window.location.href = "../adviser-pages/2-dashboard.html";
             } else {
                 showErrorModal();
             }
