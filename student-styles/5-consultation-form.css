@@ -1,65 +1,71 @@
+/* Reset some defaults */
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f8f8f8;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* White space above the green bar */
+.header-spacing {
+  height: 35px; /* Adjust this for more/less white space */
+  background-color: white;
+}
+
+/* Green top bar */
+.top-bar {
+  height: 50px;
+  background-color: #4caf50;
+}
+
+/* Container for the form image and buttons */
+.container {
   text-align: center;
+  margin-top: 40px;
 }
 
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.calendar-container {
-  display: inline-block;
+/* Form image style */
+.form-image {
+  width: 700px;
+  max-width: 90%;
+  height: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
-.calendar {
-  border-collapse: collapse;
-  width: 350px;
-  background: white;
-}
-
-.calendar th,
-.calendar td {
-  border: 1px solid black;
-  padding: 10px;
-  width: 14.28%;
-}
-
-.calendar td.prev-month,
-.calendar td.next-month {
-  color: #ccc;
-}
-
-.form-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.dropdown {
-  width: 350px;
-  height: 40px;
-  font-size: 16px;
-  padding: 0 10px;
-  text-align: center;
-}
-
-.submit-btn {
-  background-color: green;
-  color: white;
+/* Download PDF button */
+.download-btn {
+  background-color: #e0e0e0;
+  color: #d32f2f;
+  padding: 15px 30px;
   border: none;
-  padding: 10px 30px;
-  font-size: 16px;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: bold;
   cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.flatpickr-calendar {
-  transform: translateY(-105%) !important;
-  left: 0 !important;
-  width: 350px !important;
-  background: white;
-  border: 1px solid black;
-  font-size: 14px;
+.download-btn:hover {
+  background-color: #d6d6d6;
+  transform: scale(1.05);
+}
+
+/* Proceed to Dashboard button */
+.dashboard-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dashboard-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
 }
