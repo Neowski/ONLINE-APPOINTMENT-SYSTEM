@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+  }
+  
+  .page-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .divider {
+    height: 6px;
+    background-color: #4CAF50;
+    border: none;
+    margin: 20px 0;
+    width: 100vw; /* Full viewport width */
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f7f7f7;
+  }
+  
+  /* Top-right edit button area */
+.edit-button-wrapper {
+  width: 80%;
+  margin: 0 auto 10px auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Center the bottom dashboard button */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 160px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+  
+  .button-container.top {
+    margin-bottom: 20px;
+  }
+  
+  #edit-button,
+  #dashboard-button {
+    padding: 10px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 300px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+  }
+
+/* Add to existing CSS */
+.modal-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  font-size: 3rem;
+  margin: 0 auto 10px auto;
+}
+.modal-icon.error {
+  background-color: #ffcdd2;
+  color: #c62828;
+  margin-top: -10px; /* move up */
+}
+.modal-icon.success {
+  background-color: #c8e6c9;
+  color: #4CAF50;
+  margin-top: -10px; /* move up */
+}
+
+#passwordModal input, #submitPasswordBtn {
+  margin-top: 20px; /* move password field and button downward */
+}
+/* Circle outline styles */
+.circle-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  font-size: 3rem;
+  margin: 20px auto; /* centers and pushes it up a bit */
+}
+
+/* Specific color outlines */
+.red-outline {
+  border-color: #c62828;
+  color: #c62828;
+}
+
+.green-outline {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+/* Push confirm/back buttons down in confirm modal */
+#confirmModal .modal-content button {
+  margin-top: 20px;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Increase spacing here */
+  margin-top: 20px;
+}
+
+/* Apply to all modal buttons */
+.modal-content button {
+  padding: 10px 20px;
+  border: 1px solid #333;
+  background-color: white;
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modal-content button:hover {
+  background-color: #f0f0f0;
+}

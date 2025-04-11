@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appointment List</title>
+  <link rel="stylesheet" href="../styles/appointment-list.css" />
+</head>
+<body>
+  <h1 class="page-title">APPOINTMENT LIST</h1>
+  <hr class="divider" />
+
+  <!-- Edit Indicator (hidden by default) -->
+  <div class="edit-indicator" id="edit-indicator" style="display: none; text-align:center; color:#4CAF50; font-weight:bold; font-size: 1.2rem; margin-bottom: 10px;">
+    ✏️ Editing Mode
+  </div>
+
+  <!-- Top Button Row -->
+  <div class="edit-button-wrapper">
+    <button id="edit-button">Edit</button>
+    <button id="done-button" style="display: none;">Done</button>
+  </div>  
+
+  <!-- Table with delete button column added -->
+  <table>
+    <thead>
+      <tr>
+        <th style="display: none;"></th> <!-- delete btn column -->
+        <th>SR-Code</th>
+        <th>Name</th>
+        <th>Date <br/><small>(mm/dd/yyyy)</small></th>
+        <th>Time</th>
+        <th>Reason for Consultation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="delete-cell" style="display: none;"><button class="delete-btn">❌</button></td>
+        <td>12-34567</td>
+        <td>Dela Cruz, Juan P.</td>
+        <td>01-25-2025</td>
+        <td>1:30 PM - 1:45 PM</td>
+        <td>Grades and POS Evaluation</td>
+      </tr>
+      <tr>
+        <td class="delete-cell" style="display: none;"><button class="delete-btn">❌</button></td>
+        <td>23-45678</td>
+        <td>Santos, Bea Z.</td>
+        <td>01-27-2025</td>
+        <td>4:30 PM - 4:45 PM</td>
+        <td>Grades and POS Evaluation</td>
+      </tr>
+      <tr>
+        <td class="delete-cell" style="display: none;"><button class="delete-btn">❌</button></td>
+        <td>34-56789</td>
+        <td>Quirino, Ray W.</td>
+        <td>01-27-2025</td>
+        <td>4:45 PM – 5:00 PM</td>
+        <td>Grades and POS Evaluation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Bottom Return Button -->
+  <div class="button-container">
+    <button id="dashboard-button">Return to Dashboard</button>
+  </div>
+
+  <!-- Cancel Confirmation Modal -->
+  <div id="confirmModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Canceling a Schedule!</h2>
+      <div class="circle-outline red-outline">❗</div>
+      <div class="modal-buttons">
+        <button id="confirmBtn">Confirm</button>
+        <button onclick="closeModal('confirmModal')">Back</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Password Confirmation Modal -->
+  <div id="passwordModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Type your password to confirm:</h2>
+      <input type="password" id="confirmPassword" placeholder="Enter password" />
+      <button id="submitPasswordBtn">Submit</button>
+    </div>
+  </div>
+  
+  <!-- Success Modal -->
+  <div id="successModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>Successfully Canceled!</h2>
+      <div class="circle-outline green-outline">✓</div>
+      <button onclick="closeModal('successModal')">Back</button>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    let isEditing = false;
+    let rowToDelete = null;
+  
+    const editButton = document.getElementById("edit-button");
+    const doneButton = document.getElementById("done-button");
+    const indicator = document.getElementById("edit-indicator");
+    const deleteCells = document.querySelectorAll(".delete-cell");
+    const tableCells = document.querySelectorAll("tbody td:not(.delete-cell)");
+  
+    function toggleEditMode(enable) {
+      tableCells.forEach(cell => {
+        if (enable) {
+          cell.setAttribute("contenteditable", "true");
+          cell.style.backgroundColor = "#f9f9f9";
+        } else {
+          cell.removeAttribute("contenteditable");
+          cell.style.backgroundColor = "white";
+        }
+      });
+  
+      deleteCells.forEach(cell => {
+        cell.style.display = enable ? "table-cell" : "none";
+      });
+  
+      document.querySelector("thead th:first-child").style.display = enable ? "table-cell" : "none";
+      indicator.style.display = enable ? "block" : "none";
+      editButton.style.display = enable ? "none" : "inline-block";
+      doneButton.style.display = enable ? "inline-block" : "none";
+    }
+  
+    editButton.addEventListener("click", () => {
+      isEditing = true;
+      toggleEditMode(true);
+    });
+  
+    doneButton.addEventListener("click", () => {
+      isEditing = false;
+      toggleEditMode(false);
+      // Removed the alert on save
+    });
+  
+    // ✅ Correct Delete Flow
+    document.querySelectorAll(".delete-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        rowToDelete = button.closest("tr");
+        openModal("confirmModal");
+      });
+    });
+  
+    document.getElementById("confirmBtn").addEventListener("click", () => {
+      closeModal("confirmModal");
+      openModal("passwordModal");
+    });
+  
+    document.getElementById("submitPasswordBtn").addEventListener("click", () => {
+      // You can check the password value here if needed
+      const password = document.getElementById("confirmPassword").value;
+  
+      closeModal("passwordModal");
+  
+      if (rowToDelete) {
+        rowToDelete.remove();
+        rowToDelete = null;
+      }
+  
+      openModal("successModal");
+    });
+  
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+  
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+  
+    // Dashboard button
+    document.getElementById("dashboard-button").addEventListener("click", function () {
+      window.location.href = "3-dashboard.html";
+    });
+  </script>
+  
+</body>
+</html>
