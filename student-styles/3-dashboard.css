@@ -108,7 +108,12 @@ html, body {
   width: 350px;
 }
 
-.con-button i, .apt-button i {
+.con-button i { 
+  color: green;
+  font-size: 80px;
+}
+
+.apt-button i {
   color: green;
   font-size: 70px;
 }

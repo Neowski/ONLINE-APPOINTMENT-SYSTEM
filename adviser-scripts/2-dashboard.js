@@ -76,5 +76,5 @@ generateCalendar(currentMonth, currentYear);
 
 // Add event listener to "Generate Consultation Form" button
 document.querySelector('.con-button').addEventListener('click', function() {
-    window.location.href = '../pages/5-consultation-form.html';  // Navigate to the consultation form page
+    window.location.href = '../pages/5-student-consultation-form.html';  // Navigate to the consultation form page
 });
