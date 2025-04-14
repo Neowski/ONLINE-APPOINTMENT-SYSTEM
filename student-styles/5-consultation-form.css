@@ -1,0 +1,71 @@
+/* Reset some defaults */
+body {
+  margin: 0;
+  background-color: #f8f8f8;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* White space above the green bar */
+.header-spacing {
+  height: 35px; /* Adjust this for more/less white space */
+  background-color: white;
+}
+
+/* Green top bar */
+.top-bar {
+  height: 50px;
+  background-color: #4caf50;
+}
+
+/* Container for the form image and buttons */
+.container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Form image style */
+.form-image {
+  width: 700px;
+  max-width: 90%;
+  height: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+/* Download PDF button */
+.download-btn {
+  background-color: #e0e0e0;
+  color: #d32f2f;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #d6d6d6;
+  transform: scale(1.05);
+}
+
+/* Proceed to Dashboard button */
+.dashboard-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dashboard-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}

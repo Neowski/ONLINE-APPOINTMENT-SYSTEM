@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schedule an Appointment</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../adviser-styles/4-edit-appointment.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <!-- Flatpickr Library -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>EDIT APPOINTMENT SCHEDULE</h2>
+    <hr>
+
+    <div class="calendar-container">
+      <!-- Custom Calendar -->
+      <div class="calendar">
+        <div class="calendar-header">
+          <button id="prev-month">&#9664;</button>
+          <span id="current-month"></span>
+          <button id="next-month">&#9654;</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+              <th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+          </thead>
+          <tbody id="calendar-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Appointment Form -->
+      <div class="appointment-form">
+        <!-- Here is the date selection section -->
+        <div class="aligned-select-wrapper">
+          <div class="fake-select" id="fake-date-select">
+            ------------Select Date----------
+          </div>
+          <input type="text" id="select-date" style="display: none;" />
+        </div>
+
+        <!-- Time selection -->
+        <div class="aligned-select-wrapper">
+          <div class="select-time-wrapper">
+            <select id="select-time">
+              <option disabled selected hidden>------------Select Time------------</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="add">Add</button>
+        <!-- Appointments List -->
+        <div class="appointments-list" id="appointments-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Modal -->
+  <div class="modal" id="appointment-modal">
+    <div class="modal-content">
+      <h3 id="modal-date-title"></h3>
+      <div id="modal-appointments"></div>
+      <button id="modal-back">Back</button>
+    </div>
+  </div>
+  <!-- Confirmation Modal -->
+<div class="modal" id="confirmation-modal">
+    <div class="modal-content">
+      <h3 id="confirmation-title"></h3>
+      <p id="confirmation-message"></p>
+      <div>
+        <button id="modal-confirm">Confirm</button>
+        <button id="modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Custom JS -->
+  <script src="../adviser-scripts/4-edit-appointment.js"></script>
+
+</body>
+</html>
