@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function () {
+
 const calendarBody = document.getElementById("calendar-body");
 const currentMonthText = document.getElementById("current-month");
 const yearInput = document.getElementById("year");
@@ -77,4 +79,15 @@ generateCalendar(currentMonth, currentYear);
 // Add event listener to "Generate Consultation Form" button
 document.querySelector('.con-button').addEventListener('click', function() {
     window.location.href = '../student-pages/5-consultation-form.html';  // Navigate to the consultation form page
+});
+
+
+// Sign Out button handler
+const signOutButton = document.querySelector('.signout');
+if (signOutButton) {
+    signOutButton.addEventListener('click', function () {
+        window.location.href = '../1-login.html';
+    });
+}
+    
 });
