@@ -24,11 +24,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const username = document.getElementById("username").value;
             const password = passwordField.value;
 
-            if (username === "sampleuser" && password === "samplepass") {
-                window.location.href = "../student-pages/2-welcome.html";
-            } else {
+            // Send POST request to backend login API
+            fetch('/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.status === 'success') {
+                    // Redirect to student welcome page
+                    window.location.href = "../student-pages/2-welcome.html";
+                } else {
+                    showErrorModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 showErrorModal();
-            }
+            });
         });
     } else {
         console.error("#loginForm not found.");
@@ -46,16 +66,16 @@ document.addEventListener("DOMContentLoaded", function () {
         errorIcon.style = "font-size: 50px; color: #ff7675; border: 3px solid #ff7675; border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto;";
 
         const errorTitle = document.createElement("p");
-        errorTitle.textContent = "Error";
         errorTitle.style = "font-size: 22px; font-weight: bold; margin-bottom: 10px;";
+        errorTitle.textContent = "Error";
 
         const errorMessage = document.createElement("p");
-        errorMessage.textContent = "Authentication Failed";
         errorMessage.style = "font-size: 16px; color: #555; margin-bottom: 20px;";
+        errorMessage.textContent = "Authentication Failed";
 
         const okButton = document.createElement("button");
-        okButton.textContent = "OK";
         okButton.style = "padding: 10px 20px; border: none; border-radius: 8px; background: #74b9ff; color: white; font-size: 16px; cursor: pointer; margin-top: 10px;";
+        okButton.textContent = "OK";
         okButton.onclick = function () {
             document.body.removeChild(overlay);
         };
@@ -68,4 +88,3 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(overlay);
     }
 });
-    

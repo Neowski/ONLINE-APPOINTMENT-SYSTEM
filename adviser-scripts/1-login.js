@@ -24,11 +24,37 @@ document.addEventListener("DOMContentLoaded", function () {
             const username = document.getElementById("username").value;
             const password = passwordField.value;
 
-            if (username === "sampleuser" && password === "samplepass") {
-                window.location.href = "../adviser-pages/2-dashboard.html";
-            } else {
+            // Send POST request to backend login API
+            fetch('/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Redirect based on user_type
+                    switch (data.user_type) {
+                        case 'student':
+                            window.location.href = "../student-pages/2-welcome.html";
+                            break;
+                        case 'adviser':
+                        case 'admin':
+                            window.location.href = "../adviser-pages/2-dashboard.html";
+                            break;
+                        default:
+                            window.location.href = "../adviser-pages/2-dashboard.html";
+                    }
+                } else {
+                    showErrorModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 showErrorModal();
-            }
+            });
         });
     } else {
         console.error("#loginForm not found.");
@@ -68,4 +94,3 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(overlay);
     }
 });
-    

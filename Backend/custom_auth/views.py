@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import make_password
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from .models import User
 from .serializers import UserSerializer
 
@@ -24,7 +25,6 @@ class RegisterView(APIView):
         }
         """
         data = request.data
-        data['password'] = make_password(data['password'])
         
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
@@ -55,6 +55,7 @@ class UserDeleteView(APIView):
                 'message': 'User not found'
             }, status=status.HTTP_404_NOT_FOUND)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     """
     Handle user login requests
