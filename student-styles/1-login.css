@@ -195,4 +195,76 @@
     background-blend-mode: lighten;
   }
 
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Center modal content and style nicely */
+  .modal-content {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Align input and send button on same line */
+  #forgot-password-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  
+  /* Email input field */
+  #forgot-password-form input[type="email"] {
+    width: 230px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Send button styling */
+  #forgot-password-form button[type="submit"] {
+    padding: 10px 15px;
+    background-color: #FFD54F;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-right: 180px;
+  }
+  
+  /* Cancel button styling */
+  #close-forgot-modal {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #FFD54F;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  /* Optional: Success message styling */
+  #forgot-response-message {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #333;
+  }
   
