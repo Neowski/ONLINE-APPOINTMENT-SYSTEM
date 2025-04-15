@@ -3,11 +3,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
-        ('patient', 'Patient'),
-        ('doctor', 'Doctor'),
+        ('student', 'Student'),
+        ('adviser', 'Adviser'),
         ('admin', 'Admin'),
     )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+    middle_initial = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         app_label = 'custom_auth'

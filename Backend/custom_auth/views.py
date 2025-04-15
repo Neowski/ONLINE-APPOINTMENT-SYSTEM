@@ -15,7 +15,9 @@ class RegisterView(APIView):
         Handle user registration
         Expected POST data:
         {
-            "username": "username",
+            "first_name": "Juan",
+            "middle_initial": "P",
+            "last_name": "Dela Cruz",
             "email": "email@example.com",
             "password": "password",
             "user_type": "student|adviser|admin"
