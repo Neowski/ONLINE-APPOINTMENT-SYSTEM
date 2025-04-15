@@ -8,25 +8,26 @@ let isEditing = false;
     const tableCells = document.querySelectorAll("tbody td:not(.delete-cell)");
   
     function toggleEditMode(enable) {
+      // ✅ Make sure all cells are NOT editable
       tableCells.forEach(cell => {
-        if (enable) {
-          cell.setAttribute("contenteditable", "true");
-          cell.style.backgroundColor = "#f9f9f9";
-        } else {
-          cell.removeAttribute("contenteditable");
-          cell.style.backgroundColor = "white";
-        }
+        cell.removeAttribute("contenteditable");
+        cell.style.backgroundColor = "white"; // or keep your theme
       });
-  
+    
+      // ✅ Show or hide delete buttons only
       deleteCells.forEach(cell => {
         cell.style.display = enable ? "table-cell" : "none";
       });
-  
+    
+      // ✅ Also toggle the header for delete column
       document.querySelector("thead th:first-child").style.display = enable ? "table-cell" : "none";
+    
+      // ✅ Show/hide edit indicators and buttons
       indicator.style.display = enable ? "block" : "none";
       editButton.style.display = enable ? "none" : "inline-block";
       doneButton.style.display = enable ? "inline-block" : "none";
     }
+    
   
     editButton.addEventListener("click", () => {
       isEditing = true;

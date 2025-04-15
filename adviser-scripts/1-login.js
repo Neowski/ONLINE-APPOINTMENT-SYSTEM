@@ -19,6 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // Login form submission handling
     if (loginForm) {
         loginForm.addEventListener("submit", function (event) {
+            const forgotModal = document.getElementById("forgot-password-modal");
+
+            // Only proceed with login form submission if forgot password modal is NOT open
+            if (forgotModal.style.display === "flex") {
+                event.preventDefault(); // Prevent login form submission
+                return; // Exit the function without proceeding with login
+            }
+
+            // If modal is NOT open, proceed with login form validation
             event.preventDefault();
 
             const username = document.getElementById("username").value;
@@ -93,4 +102,36 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
     }
+
+    const forgotLink = document.getElementById("forgot-password-link");
+    const forgotModal = document.getElementById("forgot-password-modal");
+    const closeForgotModal = document.getElementById("close-forgot-modal");
+    const forgotForm = document.getElementById("forgot-password-form");
+    const forgotResponse = document.getElementById("forgot-response-message");
+
+    // Open forgot password modal when link is clicked
+    forgotLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        forgotModal.style.display = "flex"; // Show the forgot password modal
+    });
+
+    // Close the forgot password modal
+    closeForgotModal.addEventListener("click", () => {
+        forgotModal.style.display = "none"; // Hide the modal
+        forgotForm.reset(); // Reset form fields
+        forgotResponse.textContent = ""; // Clear any previous response
+    });
+
+    // Handle forgot password form submission
+    forgotForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("forgot-email").value;
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+        if (gmailRegex.test(email)) {
+            forgotResponse.textContent = `If ${email} is registered, a reset link will be sent.`;
+        } else {
+            forgotResponse.textContent = `Please enter a valid Gmail address.`;
+        }
+    });
 });
