@@ -72,15 +72,22 @@ class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-        
+
+        print(f"Login attempt with username: {username}")
+        if password:
+            print("Password received")
+        else:
+            print("Password missing")
+
         user = authenticate(username=username, password=password)
-        
         if user:
+            print(f"Authentication successful for user: {username}")
             return Response({
                 'status': 'success',
                 'user_type': user.user_type if hasattr(user, 'user_type') else 'unknown'
             }, status=status.HTTP_200_OK)
         else:
+            print(f"Authentication failed for user: {username}")
             return Response({
                 'status': 'error',
                 'message': 'Invalid credentials'

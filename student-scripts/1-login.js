@@ -41,15 +41,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({ username: username, password: password })
             })
-            .then(response => {
-                console.log('Response status:', response.status);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log('Response data:', data);
                 if (data.status === 'success') {
-                    // Redirect to student welcome page
-                    window.location.href = "../student-pages/2-welcome.html";
+                    switch (data.user_type) {
+                        case 'student':
+                            window.location.href = "../student-pages/2-welcome.html";
+                            break;
+                        case 'adviser':
+                        case 'admin':
+                            window.location.href = "../adviser-pages/2-dashboard.html";
+                            break;
+                        default:
+                            window.location.href = "../adviser-pages/2-dashboard.html";
+                    }
                 } else {
                     showErrorModal();
                 }
