@@ -277,3 +277,34 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = "3-appointment-list.html"; // adjust path if needed
     });
 });
+
+document.getElementById('saveChangesBtn').addEventListener('click', function () {
+  const srCode = document.getElementById('editSrCode').value;
+  const newDate = document.getElementById('editDate').value;
+  const newTime = document.getElementById('editTime').value;
+  const password = document.getElementById('confirmPassword').value;
+
+  // Optional: Add password check here if needed
+  if (!password) {
+    alert('Please enter your password to confirm.');
+    return;
+  }
+
+  fetch('../backend/update_appointment.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ srCode, newDate, newTime })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Appointment updated successfully!');
+        document.getElementById('editModal').style.display = 'none';
+        fetchAppointments(); // refresh the list
+      } else {
+        alert('Failed to update appointment');
+      }
+    });
+});
