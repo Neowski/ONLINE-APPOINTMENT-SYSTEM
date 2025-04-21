@@ -79,3 +79,45 @@ let isEditing = false;
     document.getElementById("dashboard-button").addEventListener("click", function () {
       window.location.href = "2-dashboard.html";
     });
+
+    function fetchAppointments() {
+      fetch('../backend/get_appointments.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const listContainer = document.getElementById('appointmentList');
+            listContainer.innerHTML = '';
+    
+            data.appointments.forEach(appointment => {
+              const item = document.createElement('div');
+              item.className = 'appointment-item';
+              item.innerHTML = `
+                <p><strong>${appointment.name}</strong> (${appointment.sr_code})</p>
+                <p>Date: ${appointment.appointment_date} | Time: ${appointment.appointment_time}</p>
+                <button class="edit-btn" data-sr-code="${appointment.sr_code}" data-date="${appointment.appointment_date}" data-time="${appointment.appointment_time}">Edit</button>
+              `;
+              listContainer.appendChild(item);
+            });
+    
+            attachEditListeners();
+          }
+        });
+    }
+    
+    function attachEditListeners() {
+      document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          const srCode = this.getAttribute('data-sr-code');
+          const date = this.getAttribute('data-date');
+          const time = this.getAttribute('data-time');
+    
+          document.getElementById('editSrCode').value = srCode;
+          document.getElementById('editDate').value = date;
+          document.getElementById('editTime').value = time;
+          document.getElementById('editModal').style.display = 'block';
+        });
+      });
+    }
+    
+    document.addEventListener('DOMContentLoaded', fetchAppointments);
+    
