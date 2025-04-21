@@ -33,11 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const username = document.getElementById("username").value;
             const password = passwordField.value;
 
-            if (username === "sampleuser" && password === "samplepass") {
+            if (username === "studentuser" && password === "studentpass") {
+                window.location.href = "../student-pages/2-welcome.html";
+            } else if (username === "adviseruser" && password === "adviserpass") {
                 window.location.href = "../adviser-pages/2-dashboard.html";
             } else {
-                showErrorModal();
+                showErrorModal(); // Only show error if BOTH login checks fail
             }
+            
         });
     } else {
         console.error("#loginForm not found.");

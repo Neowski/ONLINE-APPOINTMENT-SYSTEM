@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const signOutButton = document.querySelector('.signout');
     if (signOutButton) {
         signOutButton.addEventListener('click', function () {
-            window.location.href = '../adviser-pages/1-login.html';
+            window.location.href = '../login/index.html';
         });
     }
 
