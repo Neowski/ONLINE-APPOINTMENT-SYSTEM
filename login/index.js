@@ -18,29 +18,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Login form submission handling
     if (loginForm) {
-        loginForm.addEventListener("submit", function (event) {
+        loginForm.addEventListener("submit", async function (event) {
+            console.log("Login form submitted");  // Debug log
             const forgotModal = document.getElementById("forgot-password-modal");
 
             // Only proceed with login form submission if forgot password modal is NOT open
             if (forgotModal.style.display === "flex") {
                 event.preventDefault(); // Prevent login form submission
+                console.log("Forgot password modal open, login submission prevented");  // Debug log
                 return; // Exit the function without proceeding with login
             }
 
-            // If modal is NOT open, proceed with login form validation
             event.preventDefault();
 
-            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
             const password = passwordField.value;
 
-            if (username === "studentuser" && password === "studentpass") {
-                window.location.href = "../student-pages/2-welcome.html";
-            } else if (username === "adviseruser" && password === "adviserpass") {
-                window.location.href = "../adviser-pages/2-dashboard.html";
-            } else {
-                showErrorModal(); // Only show error if BOTH login checks fail
+            console.log("Sending login request for email:", email);  // Debug log
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                console.log("Received response status:", response.status);  // Debug log
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Login successful, user type:", data.user_type);  // Debug log
+                    // Redirect based on user type returned from backend
+                    if (data.user_type === "student") {
+                        window.location.href = "../student-pages/2-welcome.html";
+                    } else if (data.user_type === "adviser") {
+                        window.location.href = "../adviser-pages/2-dashboard.html";
+                    } else {
+                        window.location.href = "../student-pages/2-welcome.html"; // default redirect
+                    }
+                } else {
+                    console.log("Login failed, showing error modal");  // Debug log
+                    showErrorModal();
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                showErrorModal();
             }
-            
         });
     } else {
         console.error("#loginForm not found.");
