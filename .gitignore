@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database file
+db.sqlite3
+
+# Django stuff:
+*.log
+local_settings.py
+media
+staticfiles/
+
+# If using environment variables file
+.env
+
+# VSCode settings folder
+.vscode/
+
+# PyCharm settings folder
+.idea/
+
+# macOS files
+.DS_Store
+
+# Windows thumbnail cache files
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+
+# Python virtual environment
+venv/
+ENV/
+env/
