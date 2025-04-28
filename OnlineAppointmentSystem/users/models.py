@@ -70,3 +70,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+    
+class AdviserAvailability(models.Model):
+    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'adviser'})
+    date = models.DateField()
+    time = models.TimeField()
+
+    class Meta:
+        unique_together = ('adviser', 'date', 'time')
+        ordering = ['date', 'time']
+
+    def __str__(self):
+        return f"{self.adviser.username} - {self.date} {self.time}"
+

@@ -27,3 +27,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         validated_data['username'] = username
         user = CustomUser.objects.create_user(**validated_data)
         return user
+
+class AdviserAvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdviserAvailability
+        fields = ['id', 'adviser', 'date', 'time']
+        read_only_fields = ['id', 'adviser']
