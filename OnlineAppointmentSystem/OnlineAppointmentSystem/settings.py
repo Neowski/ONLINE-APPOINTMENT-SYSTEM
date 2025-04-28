@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,13 +53,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    
 ]
 
 # Allow requests from your frontend
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Add these settings to allow cross-origin cookies for local development
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'OnlineAppointmentSystem.urls'
 

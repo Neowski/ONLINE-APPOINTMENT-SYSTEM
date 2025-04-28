@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import AdviserAvailability, CustomUser
 from django.core.exceptions import ValidationError
 
 class CustomUserSerializer(serializers.ModelSerializer):
