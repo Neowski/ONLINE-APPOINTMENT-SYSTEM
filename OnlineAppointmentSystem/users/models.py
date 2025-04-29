@@ -82,3 +82,19 @@ class AdviserAvailability(models.Model):
 
     def __str__(self):
         return f"{self.adviser.username} - {self.date} {self.time}"
+
+
+class Appointment(models.Model):
+    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='appointments_as_adviser')
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='appointments_as_student')
+    sr_code = models.CharField(max_length=20)
+    date = models.DateField()
+    time = models.TimeField()
+    reason = models.TextField()
+
+    class Meta:
+        unique_together = ('adviser', 'student', 'date', 'time')
+        ordering = ['date', 'time']
+
+    def __str__(self):
+        return f"Appointment: {self.sr_code} - {self.student.username} with {self.adviser.username} on {self.date} at {self.time}"

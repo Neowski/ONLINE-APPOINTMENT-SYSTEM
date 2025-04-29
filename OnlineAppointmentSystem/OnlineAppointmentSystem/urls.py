@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import login_view, AdviserAvailabilityListCreateView, AdviserAvailabilityDetailView
+from users.views import (
+    login_view,
+    AdviserAvailabilityListCreateView,
+    AdviserAvailabilityDetailView,
+    AppointmentListCreateView,
+    AppointmentDetailView,
+)
 
 
 urlpatterns = [
@@ -24,5 +30,8 @@ urlpatterns = [
     path('api/login/', login_view, name='login'),
     path('api/adviser-availability/', AdviserAvailabilityListCreateView.as_view(), name='adviser-availability-list-create'),
     path('api/adviser-availability/<int:pk>/', AdviserAvailabilityDetailView.as_view(), name='adviser-availability-detail'),
+    path('api/appointments/', AppointmentListCreateView.as_view(), name='appointment-list'),
+    path('api/appointments/<int:pk>/', AppointmentDetailView.as_view(), name='appointment-detail'),
+
 
 ]

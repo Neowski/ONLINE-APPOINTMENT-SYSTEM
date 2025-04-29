@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 
-from .models import AdviserAvailability
-from .serializers import AdviserAvailabilitySerializer
+from .models import AdviserAvailability, Appointment
+from .serializers import AdviserAvailabilitySerializer, AppointmentSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -103,4 +103,57 @@ class AdviserAvailabilityDetailView(APIView):
         if availability is None:
             return Response({"error": "Availability not found."}, status=status.HTTP_404_NOT_FOUND)
         availability.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AppointmentListCreateView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        appointments = Appointment.objects.all()
+        serializer = AppointmentSerializer(appointments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data.copy()
+        serializer = AppointmentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AppointmentDetailView(APIView):
+    permission_classes = [AllowAny]
+
+    def get_object(self, pk):
+        try:
+            appointment = Appointment.objects.get(pk=pk)
+            return appointment
+        except Appointment.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        appointment = self.get_object(pk)
+        if appointment is None:
+            return Response({"error": "Appointment not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = AppointmentSerializer(appointment)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        appointment = self.get_object(pk)
+        if appointment is None:
+            return Response({"error": "Appointment not found."}, status=status.HTTP_404_NOT_FOUND)
+        data = request.data.copy()
+        serializer = AppointmentSerializer(appointment, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        appointment = self.get_object(pk)
+        if appointment is None:
+            return Response({"error": "Appointment not found."}, status=status.HTTP_404_NOT_FOUND)
+        appointment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

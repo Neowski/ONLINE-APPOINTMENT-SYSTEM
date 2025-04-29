@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch appointments from backend API
     async function fetchAppointments() {
         try {
-            const response = await fetch(`${backendBaseUrl}/api/adviser-availability/`, {
+            const response = await fetch(`${backendBaseUrl}/api/appointments/`, {
                 credentials: 'include',
             });
             if (!response.ok) {
@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function () {
             deleteCell.appendChild(deleteBtn);
             tr.appendChild(deleteCell);
 
-            // SR-Code (assuming appointment has sr_code property, else placeholder)
+            // SR-Code
             const srCodeCell = document.createElement('td');
             srCodeCell.textContent = appointment.sr_code || 'N/A';
             tr.appendChild(srCodeCell);
 
-            // Name (assuming appointment has student_name property, else placeholder)
+            // Name (student)
             const nameCell = document.createElement('td');
-            nameCell.textContent = appointment.student_name || 'N/A';
+            nameCell.textContent = appointment.student || 'N/A';
             tr.appendChild(nameCell);
 
             // Date
@@ -90,14 +90,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Time
             const timeCell = document.createElement('td');
-            // Format time range if available, else just time
-            timeCell.textContent = appointment.time; 
+            timeCell.textContent = appointment.time;
             tr.appendChild(timeCell);
 
-            // Reason for Consultation (assuming appointment has reason property, else placeholder)
+            // Reason for Consultation
             const reasonCell = document.createElement('td');
             reasonCell.textContent = appointment.reason || 'N/A';
             tr.appendChild(reasonCell);
+
+            // Set data-id attribute for delete
+            tr.setAttribute('data-id', appointment.id);
 
             tableBody.appendChild(tr);
         });
@@ -122,14 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Password validation can be added here if needed
         closeModal('passwordModal');
         if (rowToDelete) {
-            // Get appointment id from row data attribute or similar (needs to be set)
             const appointmentId = rowToDelete.getAttribute('data-id');
             if (!appointmentId) {
                 alert('Appointment ID not found.');
                 return;
             }
             try {
-                const response = await fetch(`${backendBaseUrl}/api/adviser-availability/${appointmentId}/`, {
+                const response = await fetch(`${backendBaseUrl}/api/appointments/${appointmentId}/`, {
                     method: 'DELETE',
                     credentials: 'include',
                 });
