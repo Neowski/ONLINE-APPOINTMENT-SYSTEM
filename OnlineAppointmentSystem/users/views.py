@@ -6,9 +6,8 @@ import logging
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 from .models import AdviserAvailability
 from .serializers import AdviserAvailabilitySerializer
@@ -55,23 +54,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AdviserAvailabilityListCreateView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        # List all availability for the logged-in adviser
-        if request.user.user_type != 'adviser':
-            return Response({"error": "Only advisers can view availability."}, status=status.HTTP_403_FORBIDDEN)
-        availabilities = AdviserAvailability.objects.filter(adviser=request.user)
+        availabilities = AdviserAvailability.objects.all()
         serializer = AdviserAvailabilitySerializer(availabilities, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        # Create a new availability entry for the logged-in adviser
-        if request.user.user_type != 'adviser':
-            return Response({"error": "Only advisers can add availability."}, status=status.HTTP_403_FORBIDDEN)
         data = request.data.copy()
-        data['adviser'] = request.user.id
         serializer = AdviserAvailabilitySerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -80,33 +71,27 @@ class AdviserAvailabilityListCreateView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AdviserAvailabilityDetailView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
-    def get_object(self, pk, user):
+    def get_object(self, pk):
         try:
-            availability = AdviserAvailability.objects.get(pk=pk, adviser=user)
+            availability = AdviserAvailability.objects.get(pk=pk)
             return availability
         except AdviserAvailability.DoesNotExist:
             return None
 
     def get(self, request, pk):
-        if request.user.user_type != 'adviser':
-            return Response({"error": "Only advisers can view availability."}, status=status.HTTP_403_FORBIDDEN)
-        availability = self.get_object(pk, request.user)
+        availability = self.get_object(pk)
         if availability is None:
             return Response({"error": "Availability not found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = AdviserAvailabilitySerializer(availability)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        if request.user.user_type != 'adviser':
-            return Response({"error": "Only advisers can update availability."}, status=status.HTTP_403_FORBIDDEN)
-        availability = self.get_object(pk, request.user)
+        availability = self.get_object(pk)
         if availability is None:
             return Response({"error": "Availability not found."}, status=status.HTTP_404_NOT_FOUND)
         data = request.data.copy()
-        data['adviser'] = request.user.id
         serializer = AdviserAvailabilitySerializer(availability, data=data)
         if serializer.is_valid():
             serializer.save()
@@ -114,9 +99,7 @@ class AdviserAvailabilityDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        if request.user.user_type != 'adviser':
-            return Response({"error": "Only advisers can delete availability."}, status=status.HTTP_403_FORBIDDEN)
-        availability = self.get_object(pk, request.user)
+        availability = self.get_object(pk)
         if availability is None:
             return Response({"error": "Availability not found."}, status=status.HTTP_404_NOT_FOUND)
         availability.delete()

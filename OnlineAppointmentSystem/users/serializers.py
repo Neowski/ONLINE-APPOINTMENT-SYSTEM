@@ -32,4 +32,4 @@ class AdviserAvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = AdviserAvailability
         fields = ['id', 'adviser', 'date', 'time']
-        read_only_fields = ['id', 'adviser']
+        read_only_fields = ['id']

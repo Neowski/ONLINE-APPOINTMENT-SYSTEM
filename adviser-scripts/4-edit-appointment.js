@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const backendBaseUrl = 'http://127.0.0.1:8000'; // Adjust this to your backend server URL and port
+  const defaultAdviserId = 1; // Default adviser ID to use in API requests
 
   const prevMonthBtn = document.getElementById('prev-month');
   const nextMonthBtn = document.getElementById('next-month');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
               credentials: 'include',
           });
           if (!response.ok) {
-              throw new Error('Failed to fetch availabilities');
+              throw new Error('Failed to fetch availabilities lmao');
           }
           const data = await response.json();
           appointments = {};
@@ -320,6 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify({
               date: dateStr,
               time: convertTo24Hour(time),
+              adviser: defaultAdviserId
             }),
           });
           if (!response.ok) throw new Error('Failed to add availability');

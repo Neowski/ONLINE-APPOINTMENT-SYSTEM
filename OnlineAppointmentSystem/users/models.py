@@ -72,7 +72,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
     
 class AdviserAvailability(models.Model):
-    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'user_type': 'adviser'})
+    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Removed limit_choices_to constraint
     date = models.DateField()
     time = models.TimeField()
 
@@ -82,4 +82,3 @@ class AdviserAvailability(models.Model):
 
     def __str__(self):
         return f"{self.adviser.username} - {self.date} {self.time}"
-
