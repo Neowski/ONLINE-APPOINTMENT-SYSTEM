@@ -9,12 +9,24 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 
-from .models import AdviserAvailability, Appointment
-from .serializers import AdviserAvailabilitySerializer, AppointmentSerializer
+from .models import AdviserAvailability, Appointment, CustomUser
+from .serializers import AdviserAvailabilitySerializer, AppointmentSerializer, CustomUserSerializer
 
 logger = logging.getLogger(__name__)
 
 from django.contrib.auth import login
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class AdviserListView(APIView):
+    """
+    API view to return list of users with user_type 'adviser'
+    """
+    def get(self, request):
+        advisers = CustomUser.objects.filter(user_type='adviser')
+        serializer = CustomUserSerializer(advisers, many=True)
+        return Response(serializer.data)
 
 @csrf_exempt
 def login_view(request):

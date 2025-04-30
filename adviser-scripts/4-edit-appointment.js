@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const backendBaseUrl = 'http://127.0.0.1:8000'; // Adjust this to your backend server URL and port
-  const defaultAdviserId = 1; // Default adviser ID to use in API requests
+  let defaultAdviserId = null; // Will be set after fetching advisers
 
   const prevMonthBtn = document.getElementById('prev-month');
   const nextMonthBtn = document.getElementById('next-month');
@@ -11,44 +11,62 @@ document.addEventListener('DOMContentLoaded', function () {
   const modalDateTitle = document.getElementById('modal-date-title');
   const modalBack = document.getElementById('modal-back');
   const appointmentsList = document.getElementById('appointments-list');
-  
+
   const confirmationModal = document.getElementById('confirmation-modal');
   const confirmationTitle = document.getElementById('confirmation-title');
   const confirmationMessage = document.getElementById('confirmation-message');
   const modalConfirmBtn = document.getElementById('modal-confirm');
   const modalCancelBtn = document.getElementById('modal-cancel');
-  
+
   let currentDate = new Date();
   let selectedDate = null;
   let appointments = {}; // Store appointments by date string
 
+  // Fetch advisers and set defaultAdviserId
+  async function fetchAdvisers() {
+    try {
+      const response = await fetch(`${backendBaseUrl}/api/advisers/`, {
+        credentials: 'include',
+      });
+      if (!response.ok) throw new Error('Failed to fetch advisers');
+      const data = await response.json();
+      if (data.length > 0) {
+        defaultAdviserId = data[0].id; // Select first adviser as default
+      } else {
+        console.error('No advisers found');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // Fetch existing availability from backend API
   async function fetchAvailabilities() {
-      try {
-          const response = await fetch(`${backendBaseUrl}/api/adviser-availability/`, {
-              credentials: 'include',
-          });
-          if (!response.ok) {
-              throw new Error('Failed to fetch availabilities lmao');
-          }
-          const data = await response.json();
-          appointments = {};
-          data.forEach(item => {
-              const dateStr = item.date;
-              const timeStr = new Date('1970-01-01T' + item.time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-              if (!appointments[dateStr]) {
-                  appointments[dateStr] = [];
-              }
-              appointments[dateStr].push(timeStr);
-          });
-          if (selectedDate) {
-              showAppointmentsForDate(selectedDate.getFullYear() + '-' +
-                  String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
-                  String(selectedDate.getDate()).padStart(2, '0'));
-          }
-      } catch (error) {
-          console.error(error);
+    try {
+      const response = await fetch(`${backendBaseUrl}/api/adviser-availability/`, {
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch availabilities');
       }
+      const data = await response.json();
+      appointments = {};
+      data.forEach(item => {
+        const dateStr = item.date;
+        const timeStr = new Date('1970-01-01T' + item.time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        if (!appointments[dateStr]) {
+          appointments[dateStr] = [];
+        }
+        appointments[dateStr].push(timeStr);
+      });
+      if (selectedDate) {
+        showAppointmentsForDate(selectedDate.getFullYear() + '-' +
+          String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
+          String(selectedDate.getDate()).padStart(2, '0'));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function formatDate(month, year) {
@@ -298,6 +316,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    if (!defaultAdviserId) {
+      showConfirmationModal("Error", "No adviser selected or available.", null);
+      return;
+    }
+
     const time = document.getElementById('select-time').value;
     if (!time || time.includes("Select Time")) {
       showConfirmationModal("Error", "Please select a time.", null);
@@ -324,7 +347,11 @@ document.addEventListener('DOMContentLoaded', function () {
               adviser: defaultAdviserId
             }),
           });
-          if (!response.ok) throw new Error('Failed to add availability');
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Failed to add availability:', errorData);
+            throw new Error('Failed to add availability');
+          }
           if (!appointments[dateStr]) appointments[dateStr] = [];
           appointments[dateStr].push(time);
           showAppointmentsForDate(dateStr);
@@ -369,8 +396,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Initial fetch of availabilities
-  fetchAvailabilities();
+  // Initial fetch of advisers and availabilities
+  fetchAdvisers().then(() => {
+    fetchAvailabilities();
+  });
 
   // Function to show the confirmation modal
   function showConfirmationModal(title, message, callback) {

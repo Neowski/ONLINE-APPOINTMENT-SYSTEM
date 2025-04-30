@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const submitBtn = document.getElementById("submit");
 
   let currentDate = new Date();
+  let adviserId = localStorage.getItem('selectedAdviserId');
+  let availabilities = [];
+  let availableDates = new Set();
 
-  // Function to format the current date for calendar display
   function formatDate(month, year) {
     const months = [
       "January", "February", "March", "April", "May", "June",
@@ -19,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return `${months[month]} ${year}`;
   }
 
-  // Function to render the calendar
   function renderCalendar() {
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
@@ -28,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
 
     currentMonthElement.textContent = formatDate(currentMonth, currentYear);
-
     const totalDays = lastDay.getDate();
     const startDay = firstDay.getDay();
 
@@ -45,7 +45,18 @@ document.addEventListener('DOMContentLoaded', function () {
           cell.textContent = prevMonthDay;
           cell.classList.add('prev-month');
         } else if (dayCount <= totalDays) {
+          const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
           cell.textContent = dayCount;
+          if (availableDates.has(dateStr)) {
+            cell.classList.add('available-date');
+            cell.style.cursor = 'pointer';
+            cell.addEventListener('click', () => {
+              fp.setDate(new Date(dateStr), true); // Pass Date object instead of string
+            });
+          } else {
+            cell.classList.add('unavailable-date');
+            cell.style.color = '#ccc';
+          }
           dayCount++;
         } else {
           const nextMonthDay = dayCount - totalDays;
@@ -60,7 +71,49 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Event listeners for the previous and next buttons
+  function fetchAvailabilities() {
+    if (!adviserId) {
+      alert('No adviser selected. Please select an adviser first.');
+      return;
+    }
+    fetch('http://127.0.0.1:8000/api/adviser-availability/')
+      .then(response => response.json())
+      .then(data => {
+        availabilities = data.filter(a => {
+          if (typeof a.adviser === 'object' && a.adviser !== null) {
+            return a.adviser.id == adviserId;
+          } else {
+            return a.adviser == adviserId;
+          }
+        });
+        availableDates = new Set(availabilities.map(a => a.date));
+        renderCalendar();
+      })
+      .catch(error => {
+        console.error('Error fetching availabilities:', error);
+      });
+  }
+
+  function updateTimeSlots(selectedDate) {
+    // Convert selectedDate from "F j, Y" to "YYYY-MM-DD"
+    const dateObj = new Date(selectedDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
+    selectTime.innerHTML = '<option disabled selected hidden>------------Select Time----------</option>';
+    const timesForDate = availabilities
+      .filter(a => a.date === formattedDate)
+      .map(a => a.time);
+    timesForDate.forEach(time => {
+      const option = document.createElement('option');
+      option.value = time;
+      option.textContent = time;
+      selectTime.appendChild(option);
+    });
+  }
+
   prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
@@ -71,82 +124,73 @@ document.addEventListener('DOMContentLoaded', function () {
     renderCalendar();
   });
 
-  renderCalendar();
+  fetchAvailabilities();
 
-  // Flatpickr initialization
   const fp = flatpickr(realInput, {
     dateFormat: "F j, Y",
     minDate: "today",
-    clickOpens: false,
+    clickOpens: true,
     appendTo: fakeSelect,
     position: "below",
     onChange: function (selectedDates, dateStr) {
       fakeSelect.textContent = dateStr;
+      updateTimeSlots(dateStr);
     },
     onReady: function (_, __, instance) {
       instance.calendarContainer.style.marginTop = "5px";
     }
   });
 
-  // Fake date select click event to open the Flatpickr calendar
   fakeSelect.addEventListener("click", () => fp.open());
 
-  // Generate available time slots
-  function generateTimeSlots(start = "07:00", end = "17:00", interval = 15) {
-    selectTime.innerHTML = '<option>------------Select Time------------</option>';
-
-    const startTime = new Date(`1970-01-01T${start}:00`);
-    const endTime = new Date(`1970-01-01T${end}:00`);
-
-    while (startTime <= endTime) {
-      const timeStr = startTime.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      });
-
-      const option = document.createElement("option");
-      option.value = timeStr;
-      option.textContent = timeStr;
-      selectTime.appendChild(option);
-
-      startTime.setMinutes(startTime.getMinutes() + interval);
-    }
-  }
-
-  generateTimeSlots();
-
-  // Submit Button Logic
   submitBtn.addEventListener('click', () => {
     const selectedDate = realInput.value;
     const selectedTime = selectTime.value;
 
     if (!selectedDate || !selectedTime || selectedTime.includes('Select')) {
-      // Show error modal if date or time is not selected
       document.getElementById("error-modal").style.display = "block";
       return;
     }
 
-    console.log('Appointment Date:', selectedDate);
-    console.log('Appointment Time:', selectedTime);
+    const appointmentData = {
+      adviser: adviserId,
+      date: selectedDate,
+      time: selectedTime,
+      sr_code: "",
+      reason: ""
+    };
 
-    // Clear fields after submit
-    fp.clear();
-    fakeSelect.textContent = '------------Select Date----------';
-    selectTime.selectedIndex = 0;
-
-    // Show success modal
-    document.getElementById("success-modal").style.display = "block";
+    fetch('http://127.0.0.1:8000/api/appointments/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(appointmentData)
+    })
+      .then(response => {
+        if (response.ok) {
+          fp.clear();
+          fakeSelect.textContent = '------------Select Date----------';
+          selectTime.innerHTML = '<option disabled selected hidden>------------Select Time----------</option>';
+          document.getElementById("success-modal").style.display = "block";
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.error || 'Failed to create appointment');
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error creating appointment:', error);
+        alert('Error creating appointment: ' + error.message);
+      });
   });
 
-  // Error modal "OK" button
   document.getElementById("close-error-modal").addEventListener("click", () => {
     document.getElementById("error-modal").style.display = "none";
   });
 
-  // Success modal "OK" button
   document.getElementById("close-modal").addEventListener("click", () => {
     document.getElementById("success-modal").style.display = "none";
-    location.reload(); // Optional: reload the page after closing the modal
+    location.reload();
   });
 });

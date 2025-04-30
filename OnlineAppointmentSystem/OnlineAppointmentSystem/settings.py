@@ -59,6 +59,7 @@ MIDDLEWARE = [
 # Allow requests from your frontend
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -66,6 +67,9 @@ CORS_ALLOW_CREDENTIALS = True
 # Add these settings to allow cross-origin cookies for local development
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = False
+
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'OnlineAppointmentSystem.urls'
 
