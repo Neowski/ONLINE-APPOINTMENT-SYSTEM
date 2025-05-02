@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('submitPasswordBtn').addEventListener('click', async () => {
-        const enteredPassword = document.getElementById('delete-password-input').value;
+        const enteredPassword = document.getElementById('confirmPassword').value;
     
         try {
             const csrfToken = getCookie('csrftoken');
