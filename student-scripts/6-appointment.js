@@ -1,4 +1,41 @@
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Check if this cookie string begins with the name we want
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
+
+  let currentUser = {};  // Declare a global-scoped variable for current user
+
+  fetch("http://127.0.0.1:8000/api/current-user/", {
+      credentials: "include" // This ensures the session cookie is sent
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to fetch current user");
+      return response.json();
+    })
+    .then(data => {
+      currentUser = data; // Store it for later use in appointmentData
+      console.log("Current user loaded:", currentUser);
+    })
+    .catch(error => {
+      console.error("Error fetching current user:", error);
+    });
+
+
   const prevMonthBtn = document.getElementById('prev-month');
   const nextMonthBtn = document.getElementById('next-month');
   const currentMonthElement = document.getElementById('current-month');
@@ -144,27 +181,45 @@ document.addEventListener('DOMContentLoaded', function () {
   fakeSelect.addEventListener("click", () => fp.open());
 
   submitBtn.addEventListener('click', () => {
-    const selectedDate = realInput.value;
+    const selectedDate = realInput.value;  // "May 2, 2025"
     const selectedTime = selectTime.value;
-
+  
     if (!selectedDate || !selectedTime || selectedTime.includes('Select')) {
       document.getElementById("error-modal").style.display = "block";
       return;
     }
-
+  
+    // Log adviserId to see if it's set correctly
+    console.log("Adviser ID:", adviserId);
+  
+    // If adviserId is invalid, show an error
+    if (!adviserId) {
+      alert("Adviser not selected or invalid. Please select a valid adviser.");
+      return;
+    }
+  
+    // Manually format selectedDate to "YYYY-MM-DD"
+    const dateObj = new Date(selectedDate);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;  // Format to YYYY-MM-DD
+  
     const appointmentData = {
-      adviser: adviserId,
-      date: selectedDate,
+      adviser: adviserId,  // Use adviserId here
+      date: formattedDate,  // Use the formatted date here
       time: selectedTime,
-      sr_code: "",
-      reason: ""
+      sr_code: currentUser?.sr_code || "",
+      reason: "For Evaluation of POS and Grades"
     };
-
+  
     fetch('http://127.0.0.1:8000/api/appointments/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken') // Include CSRF token from cookie
       },
+      credentials: 'include',
       body: JSON.stringify(appointmentData)
     })
       .then(response => {
@@ -174,8 +229,14 @@ document.addEventListener('DOMContentLoaded', function () {
           selectTime.innerHTML = '<option disabled selected hidden>------------Select Time----------</option>';
           document.getElementById("success-modal").style.display = "block";
         } else {
-          return response.json().then(data => {
-            throw new Error(data.error || 'Failed to create appointment');
+          return response.text().then(text => {
+            try {
+              const data = JSON.parse(text);
+              throw new Error(data.error || 'Failed to create appointment');
+            } catch {
+              console.error("Raw response:", text);
+              throw new Error('Failed to create appointment (invalid JSON response)');
+            }
           });
         }
       })

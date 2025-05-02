@@ -3,9 +3,11 @@ from .models import AdviserAvailability, CustomUser, Appointment
 from django.core.exceptions import ValidationError
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    sr_code = serializers.CharField(max_length=20, required=True)  # Add sr_code to the serializer
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'middle_name', 'last_name', 'user_type']
+        fields = ['id', 'email', 'first_name', 'middle_name', 'last_name', 'user_type', 'sr_code']
         read_only_fields = ['id']
 
     def validate_email(self, value):
@@ -33,10 +35,16 @@ class AdviserAvailabilitySerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    adviser = serializers.StringRelatedField(read_only=True)
+    adviser = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.filter(user_type='adviser')
+    )
     student = serializers.StringRelatedField(read_only=True)
+    student_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
-        fields = ['id', 'adviser', 'student', 'sr_code', 'date', 'time', 'reason']
-        read_only_fields = ['id']
+        fields = ['id', 'adviser', 'student', 'sr_code', 'date', 'time', 'reason', 'student_name']
+        read_only_fields = ['id', 'student'] 
+
+    def get_student_name(self, obj):
+        return f"{obj.student.first_name} {obj.student.last_name}"

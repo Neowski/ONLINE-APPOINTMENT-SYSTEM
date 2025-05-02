@@ -40,6 +40,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  
+  
   // Fetch existing availability from backend API
   async function fetchAvailabilities() {
     try {
@@ -176,11 +193,15 @@ document.addEventListener('DOMContentLoaded', function () {
             async () => {
               try {
                 // Find the availability id to delete
+                const csrfToken = getCookie('csrftoken');
                 const availabilityId = await getAvailabilityId(dateStr, time);
                 if (!availabilityId) throw new Error('Availability not found');
                 const response = await fetch(`${backendBaseUrl}/api/adviser-availability/${availabilityId}/`, {
                   method: 'DELETE',
                   credentials: 'include',
+                  headers: {
+                    'X-CSRFToken': csrfToken,
+                  },
                 });
                 if (!response.ok) throw new Error('Failed to delete availability');
                 appointments[dateStr].splice(index, 1);
@@ -213,11 +234,13 @@ document.addEventListener('DOMContentLoaded', function () {
               try {
                 const availabilityId = await getAvailabilityId(dateStr, time);
                 if (!availabilityId) throw new Error('Availability not found');
+                const csrfToken = getCookie('csrftoken');
                 const response = await fetch(`${backendBaseUrl}/api/adviser-availability/${availabilityId}/`, {
                   method: 'PUT',
                   credentials: 'include',
                   headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
                   },
                   body: JSON.stringify({
                     date: dateStr,
@@ -332,6 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
       `Are you sure you want to add an appointment at ${time} on ${formatFakeDate(selectedDate)}?`,
       async () => {
         try {
+          const csrfToken = getCookie('csrftoken');
           const dateStr = selectedDate.getFullYear() + '-' +
             String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
             String(selectedDate.getDate()).padStart(2, '0');
@@ -340,6 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
+              'X-CSRFToken': csrfToken,
             },
             body: JSON.stringify({
               date: dateStr,
@@ -396,9 +421,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Initial fetch of advisers and availabilities
   fetchAdvisers().then(() => {
-    fetchAvailabilities();
+    fetchAvailabilities().then(() => {
+      const todayStr = currentDate.getFullYear() + '-' +
+        String(currentDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(currentDate.getDate()).padStart(2, '0');
+      selectedDate = currentDate;
+      fakeSelect.textContent = formatFakeDate(currentDate);
+      showAppointmentsForDate(todayStr);
+    });
   });
 
   // Function to show the confirmation modal

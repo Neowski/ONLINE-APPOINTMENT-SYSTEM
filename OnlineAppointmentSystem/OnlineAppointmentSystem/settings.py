@@ -42,6 +42,16 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
@@ -65,10 +75,15 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 # Add these settings to allow cross-origin cookies for local development
-SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = False
 
-CSRF_COOKIE_SAMESITE = 'None'
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5500",
+]
+
+
+CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'OnlineAppointmentSystem.urls'

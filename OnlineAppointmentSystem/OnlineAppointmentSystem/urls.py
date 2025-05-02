@@ -24,6 +24,9 @@ from users.views import (
     AppointmentListCreateView,
     AppointmentDetailView,
     AdviserListView,
+    csrf_init_view,
+    current_user_view,
+    ValidatePasswordView,
 )
 
 
@@ -36,5 +39,8 @@ urlpatterns = [
     path('api/appointments/<int:pk>/', AppointmentDetailView.as_view(), name='appointment-detail'),
 
     path('api/advisers/', AdviserListView.as_view(), name='adviser-list'),
+    path('api/current-user/', current_user_view, name='current-user'),
+    path('csrf-init/', csrf_init_view, name='csrf-init'),
+    path('api/validate-password/', ValidatePasswordView.as_view(), name='validate_password'),
 
 ]

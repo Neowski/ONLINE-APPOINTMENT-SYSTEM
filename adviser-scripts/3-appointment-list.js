@@ -1,3 +1,19 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const backendBaseUrl = 'http://127.0.0.1:8000'; // Adjust to your backend URL and port
 
@@ -121,31 +137,61 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('submitPasswordBtn').addEventListener('click', async () => {
-        // Password validation can be added here if needed
-        closeModal('passwordModal');
-        if (rowToDelete) {
-            const appointmentId = rowToDelete.getAttribute('data-id');
-            if (!appointmentId) {
-                alert('Appointment ID not found.');
+        const enteredPassword = document.getElementById('delete-password-input').value;
+    
+        try {
+            const csrfToken = getCookie('csrftoken');
+            const response = await fetch(`${backendBaseUrl}/api/validate-password/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ password: enteredPassword }),
+                credentials: 'include',
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(errorData.error || 'Password validation failed');
                 return;
             }
-            try {
-                const response = await fetch(`${backendBaseUrl}/api/appointments/${appointmentId}/`, {
-                    method: 'DELETE',
-                    credentials: 'include',
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to delete appointment');
+    
+            // Password validated, proceed with deletion
+            closeModal('passwordModal');
+    
+            if (rowToDelete) {
+                const appointmentId = rowToDelete.getAttribute('data-id');
+                if (!appointmentId) {
+                    alert('Appointment ID not found.');
+                    return;
                 }
-                rowToDelete.remove();
-                rowToDelete = null;
-                openModal('successModal');
-            } catch (error) {
-                console.error(error);
-                alert('Failed to delete appointment.');
+                try {
+                    const deleteResponse = await fetch(`${backendBaseUrl}/api/appointments/${appointmentId}/`, {
+                        method: 'DELETE',
+                        credentials: 'include',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                        },
+                    });
+                    if (!deleteResponse.ok) {
+                        throw new Error('Failed to delete appointment');
+                    }
+                    rowToDelete.remove();
+                    rowToDelete = null;
+                    openModal('successModal');
+                } catch (error) {
+                    console.error(error);
+                    alert('Failed to delete appointment.');
+                }
             }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to validate password');
         }
     });
+    
+    
 
     // Dashboard button
     document.getElementById('dashboard-button').addEventListener('click', () => {

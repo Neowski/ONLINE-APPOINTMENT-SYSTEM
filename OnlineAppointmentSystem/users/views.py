@@ -1,13 +1,18 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth.decorators import login_required
 import json
 import logging
 
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import AdviserAvailability, Appointment, CustomUser
 from .serializers import AdviserAvailabilitySerializer, AppointmentSerializer, CustomUserSerializer
@@ -19,14 +24,44 @@ from django.contrib.auth import login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+def csrf_init_view(request):
+    return render(request, 'csrf_init.html')
+
+class ValidatePasswordView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access this API
+
+    def post(self, request):
+        # Get the password from the request body
+        password = request.data.get('password')
+
+        if not password:
+            return Response({"error": "Password is required."}, status=400)
+
+        # Check if the logged-in user is correct
+        user = request.user  # The logged-in user making the request
+
+        if user.check_password(password):
+            return Response({"success": True}, status=200)
+        else:
+            return Response({"error": "Incorrect password."}, status=400)
+
+@method_decorator(csrf_exempt, name='dispatch')
 class AdviserListView(APIView):
-    """
-    API view to return list of users with user_type 'adviser'
-    """
+    permission_classes = [AllowAny]
     def get(self, request):
         advisers = CustomUser.objects.filter(user_type='adviser')
         serializer = CustomUserSerializer(advisers, many=True)
         return Response(serializer.data)
+    
+@ensure_csrf_cookie
+@login_required
+def current_user_view(request):
+    user = request.user
+    return JsonResponse({
+        "username": user.username,
+        "sr_code": getattr(user, "sr_code", ""),
+        "email": user.email
+    })
 
 @csrf_exempt
 def login_view(request):
@@ -119,7 +154,7 @@ class AdviserAvailabilityDetailView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AppointmentListCreateView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Consider using IsAuthenticated if you're using sessions/tokens
 
     def get(self, request):
         appointments = Appointment.objects.all()
@@ -127,12 +162,21 @@ class AppointmentListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({"error": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
+
         data = request.data.copy()
+        # Automatically set student, SR code, and reason
+        data['student'] = request.user.id
+        data['sr_code'] = getattr(request.user, 'sr_code', '')  # fallback to '' if sr_code is missing
+        data['reason'] = "For Evaluation of POS and Grades"
+
         serializer = AppointmentSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(student=request.user)  # ensure FK is passed as instance
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AppointmentDetailView(APIView):
