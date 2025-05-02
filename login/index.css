@@ -104,17 +104,19 @@
     color: green;
   }
 
-  /* Username input container (to match password box) */
-  .username-container {
+  /* Input container (to match password box) */
+  .input-container {
     position: relative;
     width: 100%;
     max-width: 500px;
     height: 50px;
     margin: 10px auto;
+    
+
   }
 
-  /* Username input field */
-  .username-container input {
+  /* Input input field */
+  .input-container input {
     width: 100%;
     padding: 10px 40px 10px 10px; /* Space for icon on the right */
     font-size: 14px;
