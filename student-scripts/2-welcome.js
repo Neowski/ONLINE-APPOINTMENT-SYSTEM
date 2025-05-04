@@ -19,5 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    
   });
-  
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Sign Out button handler
+    const signOutButton = document.querySelector('.signout');
+    if (signOutButton) {
+        signOutButton.addEventListener('click', function () {
+            window.location.href = '../login/index.html';
+        });
+    }
+      
+});

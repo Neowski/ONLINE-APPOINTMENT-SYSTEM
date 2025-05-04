@@ -20,17 +20,16 @@ body {
 /* Container for the form image and buttons */
 .container {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
-/* Form image style */
+
 .form-image {
   width: 700px;
   max-width: 90%;
   height: auto;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
 }
 
 /* Download PDF button */
@@ -45,6 +44,7 @@ body {
   cursor: pointer;
   margin-bottom: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 50px; 
 }
 
 .download-btn:hover {
@@ -54,6 +54,7 @@ body {
 
 /* Proceed to Dashboard button */
 .dashboard-btn {
+  display: inline-block;
   background-color: #4caf50;
   color: white;
   padding: 14px 28px;
@@ -63,6 +64,9 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  margin-top: 80px;
+  margin-left: 10px;
 }
 
 .dashboard-btn:hover {

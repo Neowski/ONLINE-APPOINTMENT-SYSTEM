@@ -272,4 +272,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     renderCalendar(); // Initial calendar render
+
+    document.getElementById("returnAppointmentList").addEventListener("click", function () {
+      window.location.href = "3-appointment-list.html"; // adjust path if needed
+    });
 });
+

@@ -74,7 +74,20 @@ nextMonthBtn.addEventListener("click", () => changeMonth(1));
 // Generate initial calendar
 generateCalendar(currentMonth, currentYear);
 
-// Add event listener to "Generate Consultation Form" button
-document.querySelector('.con-button').addEventListener('click', function() {
-    window.location.href = '../pages/5-student-consultation-form.html';  // Navigate to the consultation form page
+document.addEventListener('DOMContentLoaded', function () {
+    // Sign Out button handler
+    const signOutButton = document.querySelector('.signout');
+    if (signOutButton) {
+        signOutButton.addEventListener('click', function () {
+            window.location.href = '../login/index.html';
+        });
+    }
+
+    // Consultation form button handler
+    const consultationButton = document.querySelector('.con-button');
+    if (consultationButton) {
+        consultationButton.addEventListener('click', function () {
+            window.location.href = '../pages/5-student-consultation-form.html';
+        });
+    }
 });

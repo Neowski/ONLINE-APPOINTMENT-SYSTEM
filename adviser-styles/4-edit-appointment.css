@@ -38,7 +38,7 @@ h2 {
     margin-top: 100px;
     margin-left: 40px;
     height: 800px;
-    width: 950px;
+    width: 1200px;
 }
 
 .calendar {
@@ -50,6 +50,7 @@ h2 {
     padding: 10px;
     margin-top: -50px;
     box-sizing: border-box;
+    padding-top: 20px;
 }
 
 .calendar-header {
@@ -59,10 +60,11 @@ h2 {
     gap: 20px;
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: -5px;
     margin-top: -17px;
     margin-left: 10px;
     gap: 180px;
+    height: auto;
 }
 
 .calendar-header button {
@@ -87,16 +89,16 @@ h2 {
 }
 
 .calendar-header span {
-    transform: translateY(10px);
+    transform: translateY(13px);
     display: inline-block;
     margin-right: 18px;
 }
 
 table {
     width: 100%;
-    height: 85%;
+    height: 90%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 30px;
     border: 3px solid #666666;
 }
 
@@ -283,15 +285,15 @@ th, td {
     top: auto !important;
     left: auto !important;
     margin-top: 5px;
+    border: 3px solid #388e3c;
 }
 
-/* Highlight selected date */
 td.selected {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green background */
     color: white;
-    border-radius: 50%;
+    border-radius: 50%; /* Circle shape */
+    padding: -3px; /* Adjust padding to change the size of the circle */
 }
-
 /* Hover effect */
 td.current-month:hover {
     background-color: #e0e0e0;
@@ -397,3 +399,26 @@ button {
     margin: 10px;
     cursor: pointer;
 }
+
+
+.return-btn-wrapper {
+    margin-top: 120px;
+    text-align: center;
+  }
+  
+  #returnAppointmentList {
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #returnAppointmentList:hover {
+    background-color: #388e3c;
+  }
+  
+
