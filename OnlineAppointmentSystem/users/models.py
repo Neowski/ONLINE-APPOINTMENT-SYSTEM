@@ -18,7 +18,12 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email must be set')
         email = self.normalize_email(email)
         validate_school_email(email)
-        # Generate username from last_name, first_name, middle_name
+
+        sr_code = extra_fields.get('sr_code')
+        if not sr_code:
+            raise ValueError('SR Code is required')
+
+        # Username generation
         last_name = extra_fields.get('last_name', '').strip()
         first_name = extra_fields.get('first_name', '').strip()
         middle_name = extra_fields.get('middle_name', '').strip()
@@ -29,6 +34,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields['username'] = username
 
         user = self.model(email=email, **extra_fields)
+
         if password:
             user.set_password(password)
         else:
@@ -56,6 +62,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True, validators=[validate_school_email])
+    sr_code = models.CharField(max_length=20, unique=True)
     first_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30)
@@ -66,7 +73,35 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'user_type']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'user_type', 'sr_code']
 
     def __str__(self):
         return self.username
+    
+class AdviserAvailability(models.Model):
+    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Removed limit_choices_to constraint
+    date = models.DateField()
+    time = models.TimeField()
+
+    class Meta:
+        unique_together = ('adviser', 'date', 'time')
+        ordering = ['date', 'time']
+
+    def __str__(self):
+        return f"{self.adviser.username} - {self.date} {self.time}"
+
+
+class Appointment(models.Model):
+    adviser = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='appointments_as_adviser')
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='appointments_as_student')
+    sr_code = models.CharField(max_length=20)
+    date = models.DateField()
+    time = models.TimeField()
+    reason = models.TextField()
+
+    class Meta:
+        unique_together = ('adviser', 'student', 'date', 'time')
+        ordering = ['date', 'time']
+
+    def __str__(self):
+        return f"Appointment: {self.sr_code} - {self.student.username} with {self.adviser.username} on {self.date} at {self.time}"

@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (loginForm) {
         loginForm.addEventListener("submit", async function (event) {
             console.log("Login form submitted");  // Debug log
+<<<<<<< HEAD
+=======
+
+>>>>>>> test_adviser
 
             event.preventDefault();
 
@@ -34,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify({ email, password }),
                 });
 
@@ -96,8 +101,12 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
     }
+<<<<<<< HEAD
 
 
 
    
 });
+=======
+});
+>>>>>>> test_adviser
