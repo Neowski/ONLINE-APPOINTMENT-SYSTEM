@@ -73,26 +73,7 @@
     </div>
   </div>
 
-
-
-  
-
   <!-- Custom JS -->
   <script src="../student-scripts/6-appointment.js"></script>
-
-  <script>
-    flatpickr("#select-date", {
-      altInput: true,
-      altFormat: "F j, Y",
-      dateFormat: "Y-m-d",
-      onChange: function(selectedDates, dateStr) {
-        document.getElementById("fake-date-select").textContent = dateStr;
-      }
-    });
-
-    document.getElementById("fake-date-select").addEventListener("click", () => {
-      document.querySelector("#select-date")._flatpickr.open();
-    });
-  </script>
 </body>
-</html> 
+</html>

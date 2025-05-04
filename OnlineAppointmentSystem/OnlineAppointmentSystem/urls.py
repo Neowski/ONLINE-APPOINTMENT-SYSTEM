@@ -16,9 +16,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import login_view
+
+from users.views import (
+    login_view,
+    AdviserAvailabilityListCreateView,
+    AdviserAvailabilityDetailView,
+    AppointmentListCreateView,
+    AppointmentDetailView,
+    AdviserListView,
+    csrf_init_view,
+    current_user_view,
+    ValidatePasswordView,
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', login_view, name='login'),
+    path('api/adviser-availability/', AdviserAvailabilityListCreateView.as_view(), name='adviser-availability-list-create'),
+    path('api/adviser-availability/<int:pk>/', AdviserAvailabilityDetailView.as_view(), name='adviser-availability-detail'),
+    path('api/appointments/', AppointmentListCreateView.as_view(), name='appointment-list'),
+    path('api/appointments/<int:pk>/', AppointmentDetailView.as_view(), name='appointment-detail'),
+
+    path('api/advisers/', AdviserListView.as_view(), name='adviser-list'),
+    path('api/current-user/', current_user_view, name='current-user'),
+    path('csrf-init/', csrf_init_view, name='csrf-init'),
+    path('api/validate-password/', ValidatePasswordView.as_view(), name='validate_password'),
+
 ]
